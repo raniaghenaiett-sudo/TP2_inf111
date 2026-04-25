@@ -2,7 +2,8 @@ package com.vue;
 
 import com.gestionnaireLivraisons.*;
 import com.controleur.EcouteurListeLivreurs;
-
+import com.observer.Observable;
+import com.observer.Observateur;
 import javax.swing.*;
 
 /**
@@ -10,7 +11,7 @@ import javax.swing.*;
  *
  *
  */
-public class PanneauLivreurs extends JPanel {
+public class PanneauLivreurs extends JPanel implements Observateur {
     // private final JTable table;
     private ComposantTable tableLivreurs;
 
@@ -35,7 +36,18 @@ public class PanneauLivreurs extends JPanel {
         this.tableLivreurs = new ComposantTable("Liste des livreurs", 400, 200, nomsColonnes, donneesCentrees);
 
         this.add(this.tableLivreurs, java.awt.BorderLayout.CENTER);//on met la table au centre
+        //q2.2
+        this.gestionnaireLivraisons.ajouterObservateur(this);
+        //q2.4 sauvegarder double click
+        EcouteurListeLivreurs ecouteur = new EcouteurListeLivreurs(this);
+        this.enregisterEcouteur(ecouteur);
 
+        this.rafraichir();
+    }
+
+    //Q2.2
+    @Override
+    public void seMettreAJour(Observable observable) {
         this.rafraichir();
     }
 
@@ -64,25 +76,35 @@ public class PanneauLivreurs extends JPanel {
      * @return Le livreur sélectionné dans cette table.
      */
     public Livreur livreurSelectionne() {
-       int index = this.tableLivreurs.ligneSelectionnee();
+        int index = this.tableLivreurs.ligneSelectionnee();
 
-        if(index==-1){
+        if (index == -1) {
             return null;
         }
-        return this.gestionnaireLivraisons.getLivreurs().get(index);
+
+        int i = 0;
+        for (Livreur l : this.gestionnaireLivraisons.getLivreursEnregistres()) {
+            if (i == index) {
+                return l;
+            }
+            i++;
+        }
+        return null;
     }
+
+
 
     public void rafraichir() {
      //on prépare ligne et colonnes
         java.util.Vector<java.util.Vector<String>> donnees = new java.util.Vector<>();
 
 
-        for (Livreur l : this.gestionnaireLivraisons.getLivreurs()) {
+        for (Livreur l : this.gestionnaireLivraisons.getLivreursEnregistres()) {
             java.util.Vector<String> ligne = new java.util.Vector<>();
 
             ligne.add(String.valueOf(l.getId()));
             ligne.add(l.getNom());
-            ligne.add(l.getType());
+            ligne.add(l.type());
 
 
             if (l.isAuthentifie()) {

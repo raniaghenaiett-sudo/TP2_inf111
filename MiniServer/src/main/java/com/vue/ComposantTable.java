@@ -57,6 +57,8 @@ public class ComposantTable extends JPanel {
 
         scrollPane.setPreferredSize(new java.awt.Dimension(largeur, hauteur)); //tailel grille
 
+        this.setBorder(BorderFactory.createTitledBorder(titre));
+
         this.add(scrollPane);  //pour que le panneau soit visible
 
     }
