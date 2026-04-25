@@ -2,6 +2,7 @@ package com.vue;
 
 import com.atoudeft.serveur.Serveur;
 import com.gestionnaireLivraisons.GestionnaireLivraisons;
+import com.controleur.EcouteurMenuApplication;
 
 import javax.swing.*;
 
@@ -55,21 +56,56 @@ public class MiniServerUI extends JFrame {
     private void initialiserComposants() {
         // Le menu
         JMenuBar menuBar = new JMenuBar();
+        JMenu menuApplication = new JMenu("Application");
+        JMenuItem itemAjouter = new JMenuItem("Ajouter Livraison");
+        JMenuItem itemStatistiques = new JMenuItem("Statistiques");
+        JMenuItem itemQuitter = new JMenuItem("Quitter");
+        itemAjouter.setActionCommand("AJOUTER");
+        itemStatistiques.setActionCommand("STATISTIQUES");
         // TODO : À compléter/modifier
         // se reporter à la documentation de JMenu et JMenuBar pour cette partie...
-        System.err.println("Menu non implémenté dans la méthode MiniServerUI.initialiserComposants.");
+        EcouteurMenuApplication ecouteurMenu = new EcouteurMenuApplication(this);
+        itemAjouter.addActionListener(ecouteurMenu);
+        itemStatistiques.addActionListener(ecouteurMenu);
 
+        //Quitter
+        itemQuitter.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                quitter();
+            }
+        });
 
-        //  Préparer le contenu de la fenêtre.
-        // TODO : À compléter/modifier
-        System.err.println("Contenu de la fenêtre manquant dans la méthode MiniServerUI.initialiserComposants.");
+        menuApplication.add(itemAjouter);
+        menuApplication.add(itemStatistiques);
+        menuApplication.add(itemQuitter);
+        menuBar.add(menuApplication);
+        this.setJMenuBar(menuBar);
 
-        // TODO : À compléter/modifier
-        System.err.println("Ecouteur de fermeture de fenêtre manquant dans la méthode MiniServerUI.initialiserComposants.");
+        //Panneaux
+        PanneauLivreurs panneauLivreurs = new PanneauLivreurs(this, this.gestionnaireLivraisons);
+        PanneauLivraisons panneauLivraisons = new PanneauLivraisons(this.gestionnaireLivraisons);
+        PanneauConsole panneauConsole = new PanneauConsole(this.gestionnaireLivraisons);
 
-        // TODO : À compléter/modifier
+        JPanel panneauHaut = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        panneauHaut.add(panneauLivreurs);
+        panneauHaut.add(panneauLivraisons);
 
+        JPanel panneauPrincipal = new JPanel(new java.awt.BorderLayout());
+        panneauPrincipal.add(panneauHaut, java.awt.BorderLayout.CENTER);
+        panneauPrincipal.add(panneauConsole, java.awt.BorderLayout.SOUTH);
 
+        this.add(panneauPrincipal);
+
+        //Fermeture Fenetre
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                quitter();
+            }
+        });
+
+        this.setVisible(true);
     }
 
     /**

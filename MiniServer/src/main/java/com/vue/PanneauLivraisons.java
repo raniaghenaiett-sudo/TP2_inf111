@@ -5,6 +5,7 @@ import com.observer.Observable;
 import com.observer.Observateur;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * La classe qui constitue la table des livraisons.
@@ -33,13 +34,12 @@ public class PanneauLivraisons extends JPanel implements Observateur {
         this.tableLivraisons = new ComposantTable(
                 "Liste des livraisons", 500, 300, nomsColonnes, donneesCentrees);
 
-        this.add(this.tableLivraisons, java.awt.BorderLayout.CENTER);
+        this.add(this.tableLivraisons, BorderLayout.NORTH);
 
         // Q3.1 — Observer
         this.gestionnaireLivraisons.ajouterObservateur(this);
 
         this.rafraichir();
-        System.err.println("Méthode PanneauLivraisons.PanneauLivraisons non implémentée.");
     }
 
     @Override
@@ -50,12 +50,12 @@ public class PanneauLivraisons extends JPanel implements Observateur {
     public void rafraichir() {
         java.util.Vector<java.util.Vector<String>> donnees = new java.util.Vector<>();
 
-        // EN_ATTENTE
+        //En attente
         for (Livraison l : this.gestionnaireLivraisons.getLivraisonsAEffectuer()) {
             donnees.add(creerLigne(l));
         }
 
-        // EN_COURS
+        //En cours
         for (Livreur livreur : this.gestionnaireLivraisons.getLivreursEnregistres()) {
             for (Livraison l : livreur.getLivraisonsEnCours()) {
                 donnees.add(creerLigne(l));
@@ -65,7 +65,7 @@ public class PanneauLivraisons extends JPanel implements Observateur {
             }
         }
 
-        // ECHOUEES
+        //Echoue
         for (Livraison l : this.gestionnaireLivraisons.getLivraisonsEchouees()) {
             donnees.add(creerLigne(l));
         }

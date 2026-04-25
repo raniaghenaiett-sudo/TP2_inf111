@@ -22,11 +22,10 @@ public class EcouteurListeLivreurs extends MouseAdapter {
     public EcouteurListeLivreurs(PanneauLivreurs panneauLivreurs) {
         // TODO : À compléter/modifier
         this.panneauLivreurs = panneauLivreurs;
-        System.err.println("Méthode EcouteurListeLivreurs.EcouteurListeLivreurs non implémentée.");
     }
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 2) {  // double-clic détecté
+        if (e.getClickCount() == 2) {  //double-clic
             Livreur livreur = this.panneauLivreurs.livreurSelectionne();
 
             if (livreur != null) {

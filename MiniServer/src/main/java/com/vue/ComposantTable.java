@@ -1,6 +1,7 @@
 package com.vue;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseListener;
 import java.util.Vector;
@@ -112,6 +113,9 @@ public class ComposantTable extends JPanel {
      */
     public void mettreAJour(Vector<Vector<String>> donnees) {
         DefaultTableModel modele = (DefaultTableModel) this.table.getModel();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        this.table.setDefaultRenderer(Object.class, centerRenderer);
         //update
         modele.setDataVector(donnees, new Vector<>(java.util.Arrays.asList(this.nomsColonnes)));
     }

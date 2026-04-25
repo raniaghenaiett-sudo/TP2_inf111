@@ -32,7 +32,62 @@ public class AjoutLivraisonDialogue extends JDialog {
      */
     public void initialiserComposants() {
         // TODO : À compléter/modifier
-        System.err.println("Méthode AjoutLivraisonDialogue.initialiserComposants non implémentée.");
+        JPanel panel = new JPanel(new java.awt.GridLayout(3, 2, 5, 5));
+
+        JLabel labelLot = new JLabel("Lot :");
+        JTextField champLot = new JTextField();
+
+        JLabel labelPriorite = new JLabel("Priorité :");
+        JComboBox<String> comboPriorite = new JComboBox<>(
+                new String[]{"NORMALE", "URGENTE"});
+
+        JButton boutonAjouter = new JButton("Ajouter");
+        JButton boutonAnnuler = new JButton("Annuler");
+
+        panel.add(labelLot);
+        panel.add(champLot);
+        panel.add(labelPriorite);
+        panel.add(comboPriorite);
+        panel.add(boutonAjouter);
+        panel.add(boutonAnnuler);
+
+        this.add(panel);
+
+        // Bouton Ajouter
+        boutonAjouter.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                try {
+                    int lot = Integer.parseInt(champLot.getText().trim());
+                    Priorite priorite = comboPriorite.getSelectedItem()
+                            .equals("URGENTE") ? Priorite.URGENTE : Priorite.NORMALE;
+
+                    if (!com.gestionnaireLivraisons.Livraison.validerLotLivraison(lot)) {
+                        afficherErreur("Numéro de lot invalide !");
+                        return;
+                    }
+                    ajouterLivraison(lot, priorite);
+                    JOptionPane.showMessageDialog(miniServerUI,
+                            "Livraison ajoutée avec succès!");
+                    dispose();
+                } catch (NumberFormatException ex) {
+                    afficherErreur("Le numéro de lot doit être un nombre entier.");
+                }
+
+            }
+        });
+
+        //boutonAnnuler
+        boutonAnnuler.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                dispose();
+            }
+        });
+        this.pack();
+        this.setLocationRelativeTo(this.miniServerUI);
+        this.setVisible(true);
+
 
     }
 
@@ -56,7 +111,9 @@ public class AjoutLivraisonDialogue extends JDialog {
      */
     private void ajouterLivraison(int lot, Priorite priorite) {
         // TODO : À compléter/modifier
-        System.err.println("Méthode AjoutLivraisonDialogue.ajouterLivraison non implémentée.");
-    }
+        com.gestionnaireLivraisons.Livraison livraison =
+                new com.gestionnaireLivraisons.Livraison(priorite, lot);
+        this.gestionnaireLivraisons.getLivraisonsAEffectuer().ajouter(livraison);
+        this.gestionnaireLivraisons.notifierObservateurs();    }
 
 }

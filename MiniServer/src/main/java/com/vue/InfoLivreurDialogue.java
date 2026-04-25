@@ -78,7 +78,7 @@ public class InfoLivreurDialogue extends JDialog implements Observateur {
         panelTables.add(this.grilleLivraisonsEnCours);
         panelTables.add(this.grilleLivraisonsEffectuees);
 
-        //Bouton Fermer avec classe anonyme
+        //Bouton Fermer
         JButton boutonFermer = new JButton("Fermer");
         boutonFermer.addActionListener(new java.awt.event.ActionListener() {
             @Override

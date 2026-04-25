@@ -33,7 +33,7 @@ public class PanneauLivreurs extends JPanel implements Observateur {
 
         this.setLayout(new java.awt.BorderLayout());
 
-        this.tableLivreurs = new ComposantTable("Liste des livreurs", 400, 200, nomsColonnes, donneesCentrees);
+        this.tableLivreurs = new ComposantTable("Liste des livreurs", 400, 300, nomsColonnes, donneesCentrees);
 
         this.add(this.tableLivreurs, java.awt.BorderLayout.CENTER);//on met la table au centre
         //q2.2
