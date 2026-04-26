@@ -3,14 +3,18 @@ package com.vue;
 import com.gestionnaireLivraisons.*;
 import com.controleur.EcouteurListeLivreurs;
 
+import com.observer.Observateur;
+import com.observer.Observable;
+
 import javax.swing.*;
+
 
 /**
  * Classe de type JPanel pour lister les livreurs enregistrés.
  *
- *
  */
-public class PanneauLivreurs extends JPanel {
+
+public class PanneauLivreurs extends JPanel implements Observateur {
     // private final JTable table;
     private ComposantTable tableLivreurs;
 
@@ -27,6 +31,7 @@ public class PanneauLivreurs extends JPanel {
      * @param gestionnaireLivraisons Le gestionnaire de livraisons associé.
      */
     public PanneauLivreurs(MiniServerUI miniServerUI, GestionnaireLivraisons gestionnaireLivraisons) {
+
         this.miniServerUI = miniServerUI;
         this.gestionnaireLivraisons = gestionnaireLivraisons;
 
@@ -37,7 +42,10 @@ public class PanneauLivreurs extends JPanel {
         this.add(this.tableLivreurs, java.awt.BorderLayout.CENTER);//on met la table au centre
 
         this.rafraichir();
+
+        gestionnaireLivraisons.ajouterObservateur(this);
     }
+
 
     /**
      * Getter pour l'attribut MiniServerUI de cette classe.
@@ -53,7 +61,7 @@ public class PanneauLivreurs extends JPanel {
      *
      * @param ecouteurLL L'écouteur à ajouter.
      */
-    public void enregisterEcouteur(EcouteurListeLivreurs ecouteurLL) {
+    public void enregistrerEcouteur(EcouteurListeLivreurs ecouteurLL) {
         this.tableLivreurs.enregistrerEcouteur(ecouteurLL); //on passe l'écouteur à la table
     }
 
@@ -77,26 +85,26 @@ public class PanneauLivreurs extends JPanel {
         java.util.Vector<java.util.Vector<String>> donnees = new java.util.Vector<>();
 
 
-        for (Livreur l : this.gestionnaireLivraisons.getLivreurs()) {
+        for (Livreur l : this.gestionnaireLivraisons.getLivreursEnregistres()) {
             java.util.Vector<String> ligne = new java.util.Vector<>();
 
             ligne.add(String.valueOf(l.getId()));
             ligne.add(l.getNom());
-            ligne.add(l.getType());
-
+            ligne.add(l.type());
 
             if (l.isAuthentifie()) {
                 ligne.add("✔");
             } else {
                 ligne.add("✘");
             }
-
             donnees.add(ligne);
         }
-
 
         this.tableLivreurs.mettreAJour(donnees);
     }
 
-
+    @Override
+    public void seMettreAJour(Observable observable) {
+       rafraichir();
+    }
 }

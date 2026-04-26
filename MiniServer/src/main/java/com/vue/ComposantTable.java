@@ -4,12 +4,14 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseListener;
 import java.util.Vector;
+import java.awt.BorderLayout;
 
 /**
  * Un composant qui permet d'afficher des informations dans une table.
  * Ce composant peut être utilisé dans plusieurs panneaux.
  *
  */
+
 public class ComposantTable extends JPanel {
     private final JTable table;
     private final String[] nomsColonnes;
@@ -39,11 +41,14 @@ public class ComposantTable extends JPanel {
         this.table = new JTable();
         this.table.setFont(Config.fonte); // considère la fonte définie dans Config
 
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createTitledBorder(titre));
 
         //classe anonyme pour stocker les données qui seront affichées dans l'objet JTable
         DefaultTableModel modele = new DefaultTableModel (null, nomsColonnes){
             @Override
-            public boolean isCellEditable(int row, int column) {
+            public boolean isCellEditable(int row, int column)
+            {
                 return false;
             }
         };
@@ -54,10 +59,9 @@ public class ComposantTable extends JPanel {
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //une ligne a la fois
 
         JScrollPane scrollPane = new JScrollPane(this.table);  //affiche titres des colonnes
-
         scrollPane.setPreferredSize(new java.awt.Dimension(largeur, hauteur)); //tailel grille
 
-        this.add(scrollPane);  //pour que le panneau soit visible
+        this.add(scrollPane, BorderLayout.CENTER);  //pour que le panneau soit visible
 
     }
 
@@ -89,7 +93,9 @@ public class ComposantTable extends JPanel {
      * @return La ligne sélectionnée ou -1 síl n'y a aucune sélection.
      */
     public int ligneSelectionnee() {
+
         return this.table.getSelectedRow();
+
     }
 
     /**
