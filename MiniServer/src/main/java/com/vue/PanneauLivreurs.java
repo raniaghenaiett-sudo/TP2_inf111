@@ -35,17 +35,16 @@ public class PanneauLivreurs extends JPanel implements Observateur {
 
         this.tableLivreurs = new ComposantTable("Liste des livreurs", 400, 300, nomsColonnes, donneesCentrees);
 
-        this.add(this.tableLivreurs, java.awt.BorderLayout.CENTER);//on met la table au centre
-        //q2.2
+        this.add(this.tableLivreurs, java.awt.BorderLayout.CENTER);
+
         this.gestionnaireLivraisons.ajouterObservateur(this);
-        //q2.4 sauvegarder double click
+
         EcouteurListeLivreurs ecouteur = new EcouteurListeLivreurs(this);
         this.enregisterEcouteur(ecouteur);
 
         this.rafraichir();
     }
 
-    //Q2.2
     @Override
     public void seMettreAJour(Observable observable) {
         this.rafraichir();

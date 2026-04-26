@@ -31,7 +31,6 @@ public class InfoLivreurDialogue extends JDialog implements Observateur {
         this.livreur = livreur;
         this.initialiserComposants();
         this.livreur.ajouterObservateur(this);
-        System.err.println("Méthode InfoLivreurDialogue.InfoLivreurDialogue non implémentée.");
     }
 
     @Override
@@ -108,7 +107,7 @@ public class InfoLivreurDialogue extends JDialog implements Observateur {
      */
     private Vector<Vector<String>> calculerDonnees(IListeLivraisons livraisons) {
         Vector<Vector<String>> donnees = new Vector<>();
-
+        // TODO : À compléter/modifier
         for (Livraison l : livraisons) {
             Vector<String> ligne = new Vector<>();
             ligne.add(String.valueOf(l.getId()));
@@ -121,5 +120,5 @@ public class InfoLivreurDialogue extends JDialog implements Observateur {
         return donnees;
     }
 
-    // TODO : À compléter/modifier
+
 }

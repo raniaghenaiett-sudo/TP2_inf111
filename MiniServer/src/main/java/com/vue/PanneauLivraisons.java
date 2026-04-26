@@ -60,6 +60,8 @@ public class PanneauLivraisons extends JPanel implements Observateur {
             for (Livraison l : livreur.getLivraisonsEnCours()) {
                 donnees.add(creerLigne(l));
             }
+
+            //Effectues
             for (Livraison l : livreur.getLivraisonsEffectuees()) {
                 donnees.add(creerLigne(l));
             }
